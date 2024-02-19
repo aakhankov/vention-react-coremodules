@@ -1,7 +1,7 @@
 .not-found-container {
   height: 100vh;
   text-align: center;
-  background: #1d2124 url('../../assets/image/404.jpg');
+  background: #1d2124 url("../../assets/image/404.jpg");
   background-repeat: no-repeat;
   background-size: auto;
   background-position: center;
