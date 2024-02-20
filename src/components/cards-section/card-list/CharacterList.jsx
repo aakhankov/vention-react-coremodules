@@ -7,7 +7,13 @@ class CharacterList extends Component {
   render() {
     const { searchInput } = this.props;
     const filteredCharacters = CharacterData.filter((character) => {
-      return character.name.toLowerCase().includes(searchInput?.toLowerCase());
+      const nameLowerCase = character.name.toLowerCase();
+      const searchInputLowerCase = searchInput?.toLowerCase();
+      if (nameLowerCase) {
+        const regex = new RegExp(searchInputLowerCase.replace(/\s/g, '.*'), 'i');
+        return regex.test(nameLowerCase);
+      }
+      return false;
     });
     return (
       <div className="cardListSection">
