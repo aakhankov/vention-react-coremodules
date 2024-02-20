@@ -33,3 +33,7 @@ a:active {
 a {
   color: black;
 }
+.nav-link-active {
+  font-weight: bold;
+  background-color: grey;
+}
