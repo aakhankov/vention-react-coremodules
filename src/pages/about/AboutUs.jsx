@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import "../about/AboutUs.css";
+import { Link } from 'react-router-dom';
+import '../about/AboutUs.css';
 export default function AboutUS() {
   return (
     <div className="aboutUs-block">

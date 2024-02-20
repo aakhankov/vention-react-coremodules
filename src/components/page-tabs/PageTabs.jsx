@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import "../page-tabs/PageTabs.css";
+import { Link } from 'react-router-dom';
+import '../page-tabs/PageTabs.css';
 export default function PageTabs() {
   return (
     <div className="navigation-tabs">

@@ -1,8 +1,8 @@
-import { Component } from "react";
-import CharacterCard from "../card-item/CharacterCard";
-import CharacterData from "../../../data/CharacterData";
-import PropTypes from "prop-types";
-import "./CharacterList.css";
+import { Component } from 'react';
+import CharacterCard from '../card-item/CharacterCard';
+import CharacterData from '../../../data/CharacterData';
+import PropTypes from 'prop-types';
+import './CharacterList.css';
 class CharacterList extends Component {
   render() {
     const { searchInput } = this.props;
