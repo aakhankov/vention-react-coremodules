@@ -13,6 +13,7 @@ export default function PageTabs() {
         <li className={`naviagation-item ${location.pathname === '/aboutus' ? 'nav-link-active' : ''}`}>
           <Link to="/aboutus">About Us</Link>
         </li>
+        <Link to="*"></Link>
       </ul>
     </div>
   );
