@@ -1,29 +1,26 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import './CharacterSearch.css';
+import { useEffect } from 'react';
+export default function CharacterSearch({ searchInput, onSearchInputChange }) {
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('searchInput', searchInput);
+    };
+  }, [searchInput]);
 
-class CharacterSearch extends Component {
-  componentWillUnmount() {
-    localStorage.setItem('searchInput', this.state.searchInput);
-  }
-
-  render() {
-    return (
-      <div className="characterSearch_block">
-        <input
-          className="characterSearch_input"
-          label="Search Characters"
-          value={this.props.searchInput}
-          onChange={(event) => this.props.onSearchInputChange(event.target.value)}
-          placeholder="Search character..."
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="characterSearch_block">
+      <input
+        className="characterSearch_input"
+        label="Search Characters"
+        value={searchInput}
+        onChange={(event) => onSearchInputChange(event.target.value)}
+        placeholder="Search character..."
+      />
+    </div>
+  );
 }
 CharacterSearch.propTypes = {
   searchInput: PropTypes.string.isRequired,
   onSearchInputChange: PropTypes.func.isRequired,
 };
-
-export default CharacterSearch;
