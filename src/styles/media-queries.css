@@ -1,0 +1,24 @@
+@media screen and (max-width: 1368px) {
+  .cardListSection {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .cardListSection {
+    grid-template-columns: 1fr 1fr;
+  }
+  .aboutUs-block {
+    margin: 50px 100px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .cardListSection {
+    grid-template-columns: 1fr;
+  }
+  .characterCard {
+    max-width: 300px;
+  }
+  .aboutUs-block {
+    margin: 50px 100px;
+  }
+}

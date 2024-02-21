@@ -1,10 +1,10 @@
 .characterCard {
-  margin: 20px;
-  padding: 10px;
+  margin: 20px auto;
+  padding: 20px;
   border-radius: 10px;
-  background-color: #fafafa;
-  box-shadow: 0px 5px 5px 0px grey;
-  max-width: 300px;
+  background-color: var(--background-light-color);
+  box-shadow: var(--box-shadow);
+  width: var(--cards-width);
 }
 .characterCard_image {
   max-width: 200px;
