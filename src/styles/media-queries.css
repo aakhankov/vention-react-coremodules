@@ -10,6 +10,9 @@
   .aboutUs-block {
     margin: 50px 100px;
   }
+  .form {
+    width: 75%;
+  }
 }
 @media screen and (max-width: 768px) {
   .cardListSection {
@@ -20,5 +23,8 @@
   }
   .aboutUs-block {
     margin: 50px 100px;
+  }
+  .form {
+    width: 75%;
   }
 }
