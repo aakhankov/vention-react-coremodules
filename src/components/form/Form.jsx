@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './Form.css';
 import { handleSubmit } from './HandleSubmitForm';
 import { useNavigate } from 'react-router-dom';
+// import validateForm from './ValidateForm';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -14,8 +15,49 @@ const Form = () => {
     privacy: false,
   });
 
+  const [errors, setErrors] = useState({
+    name: '',
+    age: '',
+    description: '',
+    fileInput: '',
+    privacy: '',
+  });
+
   const navigate = useNavigate();
-  const onSubmit = handleSubmit(navigate, formData, setFormData);
+
+  const validateForm = () => {
+    const newErrors = {
+      name: formData.name.length > 20 ? 'Name should be less than 20 characters' : '',
+      age: isNaN(formData.age) || formData.age > 150 ? 'Invalid age' : '',
+      description:
+        formData.description.length > 500 ? 'Description should be less than 500 characters' : '',
+      fileInput: formData.fileInput ? '' : 'Please upload a file',
+      privacy: formData.privacy ? '' : 'Please accept the privacy policy',
+    };
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).every((error) => error === '');
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      handleSubmit(navigate, formData, setFormData)(e);
+      setErrors({
+        name: '',
+        age: '',
+        description: '',
+        fileInput: '',
+        privacy: '',
+      });
+    }
+  };
+
+  const isSubmitDisabled =
+    Object.values(errors).some((error) => error !== '') ||
+    Object.values(formData).some((value) => value === '');
 
   return (
     <div className="form-block">
@@ -30,16 +72,19 @@ const Form = () => {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
           />
+          {errors.name && <p className="error-message">{errors.name}</p>}
         </label>
         <label>
           Age:
           <input
-            type="text"
+            type="number"
             name="age"
             value={formData.age}
+            placeholder="Number"
             onChange={(e) => setFormData({ ...formData, age: e.target.value })}
             required
           />
+          {errors.age && <p className="error-message">{errors.age}</p>}
         </label>
         <label>
           Gender:
@@ -76,6 +121,7 @@ const Form = () => {
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             required
           />
+          {errors.description && <p className="error-message">{errors.description}</p>}
         </label>
         <label>
           Upload Photo:
@@ -85,18 +131,19 @@ const Form = () => {
             accept="image/*"
             onChange={(e) => setFormData({ ...formData, fileInput: e.target.files[0] })}
           />
+          {errors.fileInput && <p className="error-message">{errors.fileInput}</p>}
         </label>
-        <label>
+        <label className="form-privacy-policy">
           Privacy Policy:
           <input
             type="checkbox"
             name="privacy"
             checked={formData.privacy}
             onChange={() => setFormData({ ...formData, privacy: !formData.privacy })}
-            required
           />
+          {errors.privacy && <p className="error-message">{errors.privacy}</p>}
         </label>
-        <button className="form-submit-btn" type="submit">
+        <button className="form-submit-btn" type="submit" disabled={isSubmitDisabled}>
           Submit
         </button>
       </form>
