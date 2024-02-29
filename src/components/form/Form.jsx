@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './Form.css';
 import { handleSubmit } from './HandleSubmitForm';
 import { useNavigate } from 'react-router-dom';
-// import validateForm from './ValidateForm';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -23,27 +22,47 @@ const Form = () => {
     privacy: '',
   });
 
+  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    const newErrors = {
-      name: formData.name.length > 20 ? 'Name should be less than 20 characters' : '',
-      age: isNaN(formData.age) || formData.age > 150 ? 'Invalid age' : '',
-      description:
-        formData.description.length > 500 ? 'Description should be less than 500 characters' : '',
-      fileInput: formData.fileInput ? '' : 'Please upload a file',
-      privacy: formData.privacy ? '' : 'Please accept the privacy policy',
-    };
+  const validateField = (fieldName, value) => {
+    switch (fieldName) {
+      case 'name':
+        return value.length > 20 ? 'Name should be less than 20 characters' : '';
+      case 'age':
+        return isNaN(value) || value > 150 ? 'Invalid age' : '';
+      case 'description':
+        return value.length > 100 ? 'Description should be less than 100 characters' : '';
+      case 'fileInput':
+        return value ? '' : 'Please upload a file';
+      case 'privacy':
+        return value ? '' : 'Please accept the privacy policy';
+      default:
+        return '';
+    }
+  };
 
-    setErrors(newErrors);
-
-    return Object.values(newErrors).every((error) => error === '');
+  const handleInputChange = (fieldName, value) => {
+    const newFormData = { ...formData, [fieldName]: value };
+    setFormData(newFormData);
+    if (isSubmitClicked) {
+      const newErrors = { ...errors, [fieldName]: validateField(fieldName, value) };
+      setErrors(newErrors);
+    }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitClicked(true);
 
-    if (validateForm()) {
+    const newErrors = {};
+    Object.keys(formData).forEach((fieldName) => {
+      newErrors[fieldName] = validateField(fieldName, formData[fieldName]);
+    });
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).every((error) => error === '')) {
       handleSubmit(navigate, formData, setFormData)(e);
       setErrors({
         name: '',
@@ -52,12 +71,13 @@ const Form = () => {
         fileInput: '',
         privacy: '',
       });
+      setIsSubmitClicked(false);
     }
   };
 
   const isSubmitDisabled =
     Object.values(errors).some((error) => error !== '') ||
-    Object.values(formData).some((value) => value === '');
+    Object.values(formData).some((value) => (typeof value === 'boolean' ? false : value === ''));
 
   return (
     <div className="form-block">
@@ -69,7 +89,7 @@ const Form = () => {
             type="text"
             name="name"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={(e) => handleInputChange('name', e.target.value)}
             required
           />
           {errors.name && <p className="error-message">{errors.name}</p>}
@@ -81,7 +101,7 @@ const Form = () => {
             name="age"
             value={formData.age}
             placeholder="Number"
-            onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+            onChange={(e) => handleInputChange('age', e.target.value)}
             required
           />
           {errors.age && <p className="error-message">{errors.age}</p>}
@@ -91,7 +111,7 @@ const Form = () => {
           <select
             name="gender"
             value={formData.gender}
-            onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+            onChange={(e) => handleInputChange('gender', e.target.value)}
             required
           >
             <option value="male">Male</option>
@@ -104,7 +124,7 @@ const Form = () => {
           <select
             name="status"
             value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+            onChange={(e) => handleInputChange('status', e.target.value)}
             required
           >
             <option value="alive">Alive</option>
@@ -118,7 +138,7 @@ const Form = () => {
             type="text"
             name="description"
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) => handleInputChange('description', e.target.value)}
             required
           />
           {errors.description && <p className="error-message">{errors.description}</p>}
@@ -129,7 +149,7 @@ const Form = () => {
             type="file"
             name="fileInput"
             accept="image/*"
-            onChange={(e) => setFormData({ ...formData, fileInput: e.target.files[0] })}
+            onChange={(e) => handleInputChange('fileInput', e.target.files[0])}
           />
           {errors.fileInput && <p className="error-message">{errors.fileInput}</p>}
         </label>
@@ -139,7 +159,7 @@ const Form = () => {
             type="checkbox"
             name="privacy"
             checked={formData.privacy}
-            onChange={() => setFormData({ ...formData, privacy: !formData.privacy })}
+            onChange={(e) => handleInputChange('privacy', e.target.checked)}
           />
           {errors.privacy && <p className="error-message">{errors.privacy}</p>}
         </label>
