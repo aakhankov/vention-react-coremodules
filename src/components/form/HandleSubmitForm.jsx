@@ -10,7 +10,6 @@ export const handleSubmit = (navigate, formData, setFormData) => (e) => {
   reader.onloadend = () => {
     updatedFormData.image = reader.result;
     updatedFormData.file = URL.createObjectURL(fileInput);
-    //id to the new card
     updatedFormData.id = CharacterData[CharacterData.length - 1].id + 1;
 
     console.log(updatedFormData);

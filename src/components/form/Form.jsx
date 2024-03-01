@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './Form.css';
 import { handleSubmit } from './HandleSubmitForm';
 import { useNavigate } from 'react-router-dom';
+import validateField from './ValidateField';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -24,23 +25,6 @@ const Form = () => {
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
   const navigate = useNavigate();
-
-  const validateField = (fieldName, value) => {
-    switch (fieldName) {
-      case 'name':
-        return value.length > 20 ? 'Name should be less than 20 characters' : '';
-      case 'age':
-        return isNaN(value) || value > 150 ? 'Invalid age' : '';
-      case 'description':
-        return value.length > 100 ? 'Description should be less than 100 characters' : '';
-      case 'fileInput':
-        return value ? '' : 'Please upload a file';
-      case 'privacy':
-        return value ? '' : 'Please accept the privacy policy';
-      default:
-        return '';
-    }
-  };
 
   const handleInputChange = (fieldName, value) => {
     const newFormData = { ...formData, [fieldName]: value };
@@ -75,9 +59,12 @@ const Form = () => {
     }
   };
 
-  const isSubmitDisabled =
-    Object.values(errors).some((error) => error !== '') ||
-    Object.values(formData).some((value) => (typeof value === 'boolean' ? false : value === ''));
+  const errorsInForm = Object.values(errors).some((error) => error !== '');
+  const missedDataInForm = Object.values(formData).some((value) =>
+    typeof value === 'boolean' ? false : value === ''
+  );
+
+  const isSubmitDisabled = errorsInForm || missedDataInForm;
 
   return (
     <div className="form-block">
