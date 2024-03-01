@@ -13,6 +13,7 @@ const Form = () => {
     description: '',
     fileInput: null,
     privacy: false,
+    date: false,
   });
 
   const [errors, setErrors] = useState({
@@ -21,6 +22,7 @@ const Form = () => {
     description: '',
     fileInput: '',
     privacy: '',
+    date: '',
   });
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
@@ -54,6 +56,7 @@ const Form = () => {
         description: '',
         fileInput: '',
         privacy: '',
+        date: '',
       });
       setIsSubmitClicked(false);
     }
@@ -149,6 +152,16 @@ const Form = () => {
             onChange={(e) => handleInputChange('privacy', e.target.checked)}
           />
           {errors.privacy && <p className="error-message">{errors.privacy}</p>}
+        </label>
+        <label className="form-privacy-policy">
+          Date
+          <input
+            type="date"
+            name="date"
+            checked={formData.privacy}
+            onChange={(e) => handleInputChange('date', e.target.value)}
+          />
+          {errors.date && <p className="error-message">{errors.date}</p>}
         </label>
         <button className="form-submit-btn" type="submit" disabled={isSubmitDisabled}>
           Submit

@@ -10,6 +10,8 @@ export default function validateField(fieldName, value) {
       return value ? '' : 'Please upload a file';
     case 'privacy':
       return value ? '' : 'Please accept the privacy policy';
+    case 'date': 
+      return value ? '' : 'Please add date'
     default:
       return '';
   }
