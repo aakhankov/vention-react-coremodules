@@ -12,6 +12,8 @@ export default function validateField(fieldName, value) {
       return value ? '' : 'Please accept the privacy policy';
     case 'date': 
       return value ? '' : 'Please add date'
+    case 'switcher':
+      return value ? '' : 'Please switch the switcher';
     default:
       return '';
   }

@@ -3,6 +3,7 @@ import './Form.css';
 import { handleSubmit } from './HandleSubmitForm';
 import { useNavigate } from 'react-router-dom';
 import validateField from './ValidateField';
+import ReactSwitch from 'react-switch';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const Form = () => {
     fileInput: null,
     privacy: false,
     date: false,
+    switcher: false,
   });
 
   const [errors, setErrors] = useState({
@@ -23,6 +25,7 @@ const Form = () => {
     fileInput: '',
     privacy: '',
     date: '',
+    switcher: '',
   });
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
@@ -57,6 +60,7 @@ const Form = () => {
         fileInput: '',
         privacy: '',
         date: '',
+        switcher: '',
       });
       setIsSubmitClicked(false);
     }
@@ -162,6 +166,14 @@ const Form = () => {
             onChange={(e) => handleInputChange('date', e.target.value)}
           />
           {errors.date && <p className="error-message">{errors.date}</p>}
+        </label>
+        <label className="form-privacy-policy">
+          Switcher
+          <ReactSwitch
+            onChange={(checked) => handleInputChange('switcher', checked)}
+            checked={formData.switcher}
+          />
+          {errors.switcher && <p className="error-message">{errors.switcher}</p>}
         </label>
         <button className="form-submit-btn" type="submit" disabled={isSubmitDisabled}>
           Submit

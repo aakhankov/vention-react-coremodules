@@ -23,6 +23,7 @@ export const handleSubmit = (navigate, formData, setFormData) => (e) => {
       fileInput: null,
       privacy: false,
       date: '',
+      switcher: false
     });
     navigate('/');
   };
