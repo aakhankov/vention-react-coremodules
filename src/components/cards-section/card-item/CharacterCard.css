@@ -1,0 +1,18 @@
+.characterCard {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--background-light-color);
+  box-shadow: var(--box-shadow);
+  width: var(--cards-width);
+}
+.characterCard_image {
+  max-width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.characterCard_title {
+  margin-bottom: 1rem;
+  text-align: center;
+}

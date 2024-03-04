@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Roboto:wght@400;700&family=Titillium+Web&display=swap');
+@import url(media-queries.css);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--project-font);
+  background-color: var(--background-color);
+}
+main {
+  margin: 0 auto;
+  padding: 1rem;
+  padding-top: 2rem;
+}
+p {
+  padding: 5px 0;
+}

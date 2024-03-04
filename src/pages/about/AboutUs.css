@@ -1,0 +1,12 @@
+.aboutUs-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px 200px;
+  background-color: #fafafa;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  border-radius: 20px;
+  text-decoration: none;
+}
