@@ -33,6 +33,10 @@ label {
   flex-direction: column;
   height: 70px;
 }
+label p::after {
+  content: '*';
+  color: red;
+}
 textarea:focus,
 input:focus,
 select:focus {

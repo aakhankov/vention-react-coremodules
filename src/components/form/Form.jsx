@@ -88,7 +88,7 @@ const Form = () => {
       <h2 className="form-title">Character Form</h2>
       <form className="form" onSubmit={onSubmit} encType="multipart/form-data">
         <label>
-          Name:
+          <p>Name </p>
           <input
             type="text"
             name="name"
@@ -99,7 +99,7 @@ const Form = () => {
           {errors.name && <p className="error-message">{errors.name}</p>}
         </label>
         <label>
-          Age:
+          <p>Age </p>
           <input
             type="number"
             name="age"
@@ -111,7 +111,7 @@ const Form = () => {
           {errors.age && <p className="error-message">{errors.age}</p>}
         </label>
         <label>
-          Gender:
+          <p>Gender </p>
           <select
             name="gender"
             value={formData.gender}
@@ -124,7 +124,7 @@ const Form = () => {
           </select>
         </label>
         <label>
-          Status:
+          <p>Status </p>
           <select
             name="status"
             value={formData.status}
@@ -137,7 +137,7 @@ const Form = () => {
           </select>
         </label>
         <label>
-          Description:
+          <p>Description </p>
           <input
             type="text"
             name="description"
@@ -148,7 +148,7 @@ const Form = () => {
           {errors.description && <p className="error-message">{errors.description}</p>}
         </label>
         <label className="form-horizontal-field">
-          Privacy Policy:
+          <p>Privacy Policy </p>
           <input
             type="checkbox"
             name="privacy"
@@ -158,7 +158,7 @@ const Form = () => {
           {errors.privacy && <p className="error-message">{errors.privacy}</p>}
         </label>
         <label className="form-horizontal-field">
-          Date
+          <p>Date </p>
           <input
             type="date"
             name="date"
@@ -168,7 +168,7 @@ const Form = () => {
           {errors.date && <p className="error-message">{errors.date}</p>}
         </label>
         <label className="form-horizontal-field">
-          Switcher
+          <p>Switcher </p>
           <ReactSwitch
             onChange={(checked) => handleInputChange('switcher', checked)}
             checked={formData.switcher}
@@ -176,7 +176,7 @@ const Form = () => {
           {errors.switcher && <p className="error-message">{errors.switcher}</p>}
         </label>
         <label className="form-image-field">
-          Upload Photo:
+          <p>Upload Photo </p>
           <input
             type="file"
             name="fileInput"
