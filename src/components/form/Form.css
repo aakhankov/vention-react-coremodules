@@ -38,3 +38,11 @@ input:focus,
 select:focus {
   outline: none;
 }
+.form-horizontal-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.preview-image {
+  max-width: 100px;
+}

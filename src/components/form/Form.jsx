@@ -33,7 +33,17 @@ const Form = () => {
 
   const handleInputChange = (fieldName, value) => {
     const newFormData = { ...formData, [fieldName]: value };
-    setFormData(newFormData);
+    if (fieldName === 'fileInput') {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...newFormData, imagePreview: reader.result });
+      };
+      if (value) {
+        reader.readAsDataURL(value);
+      }
+    } else {
+      setFormData(newFormData);
+    }
     if (isSubmitClicked) {
       const newErrors = { ...errors, [fieldName]: validateField(fieldName, value) };
       setErrors(newErrors);
@@ -146,8 +156,14 @@ const Form = () => {
             onChange={(e) => handleInputChange('fileInput', e.target.files[0])}
           />
           {errors.fileInput && <p className="error-message">{errors.fileInput}</p>}
+          {formData.imagePreview && (
+            <div>
+              <p>Image Preview</p>
+              <img className='preview-image' src={formData.imagePreview} alt="" />
+            </div>
+          )}
         </label>
-        <label className="form-privacy-policy">
+        <label className="form-horizontal-field">
           Privacy Policy:
           <input
             type="checkbox"
@@ -157,7 +173,7 @@ const Form = () => {
           />
           {errors.privacy && <p className="error-message">{errors.privacy}</p>}
         </label>
-        <label className="form-privacy-policy">
+        <label className="form-horizontal-field">
           Date
           <input
             type="date"
@@ -167,7 +183,7 @@ const Form = () => {
           />
           {errors.date && <p className="error-message">{errors.date}</p>}
         </label>
-        <label className="form-privacy-policy">
+        <label className="form-horizontal-field">
           Switcher
           <ReactSwitch
             onChange={(checked) => handleInputChange('switcher', checked)}

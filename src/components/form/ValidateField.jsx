@@ -3,7 +3,7 @@ export default function validateField(fieldName, value) {
     case 'name':
       return value.length > 20 ? 'Name should be less than 20 characters' : '';
     case 'age':
-      return isNaN(value) || value > 150 ? 'Invalid age' : '';
+      return isNaN(value) || value < 0 || value > 150 ? 'Invalid age' : '';
     case 'description':
       return value.length > 100 ? 'Description should be less than 100 characters' : '';
     case 'fileInput':

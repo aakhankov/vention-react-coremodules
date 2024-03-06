@@ -21,7 +21,4 @@ p {
 .error-message {
   color: red;
 }
-.form-privacy-policy {
-  display: flex;
-  flex-direction: row;
-}
+
