@@ -147,22 +147,6 @@ const Form = () => {
           />
           {errors.description && <p className="error-message">{errors.description}</p>}
         </label>
-        <label>
-          Upload Photo:
-          <input
-            type="file"
-            name="fileInput"
-            accept="image/*"
-            onChange={(e) => handleInputChange('fileInput', e.target.files[0])}
-          />
-          {errors.fileInput && <p className="error-message">{errors.fileInput}</p>}
-          {formData.imagePreview && (
-            <div>
-              <p>Image Preview</p>
-              <img className='preview-image' src={formData.imagePreview} alt="" />
-            </div>
-          )}
-        </label>
         <label className="form-horizontal-field">
           Privacy Policy:
           <input
@@ -190,6 +174,22 @@ const Form = () => {
             checked={formData.switcher}
           />
           {errors.switcher && <p className="error-message">{errors.switcher}</p>}
+        </label>
+        <label className="form-image-field">
+          Upload Photo:
+          <input
+            type="file"
+            name="fileInput"
+            accept="image/*"
+            onChange={(e) => handleInputChange('fileInput', e.target.files[0])}
+          />
+          {errors.fileInput && <p className="error-message">{errors.fileInput}</p>}
+          {formData.imagePreview && (
+            <div>
+              <p>Image Preview</p>
+              <img className="preview-image" src={formData.imagePreview} alt="" />
+            </div>
+          )}
         </label>
         <button className="form-submit-btn" type="submit" disabled={isSubmitDisabled}>
           Submit

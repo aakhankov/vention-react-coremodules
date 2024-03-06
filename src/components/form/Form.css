@@ -31,7 +31,7 @@ select {
 label {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  height: 70px;
 }
 textarea:focus,
 input:focus,
@@ -42,7 +42,15 @@ select:focus {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 30px;
+  gap: 5px;
 }
 .preview-image {
   max-width: 100px;
+}
+.error-message {
+  color: red;
+}
+.form-image-field {
+  height: 180px;
 }
