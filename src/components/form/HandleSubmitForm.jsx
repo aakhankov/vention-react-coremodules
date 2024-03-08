@@ -1,6 +1,6 @@
 import CharacterData from '../../data/CharacterData';
 
-export const handleSubmit = ({navigate, formData, setFormData}) => (e) => {
+export const handleSubmit = (navigate, formData, setFormData) => (e) => {
   e.preventDefault();
 
   const updatedFormData = { ...formData };
