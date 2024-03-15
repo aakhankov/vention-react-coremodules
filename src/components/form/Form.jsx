@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './Form.css';
 import { handleSubmit } from './HandleSubmitForm';
 import { useNavigate } from 'react-router-dom';
@@ -35,7 +35,29 @@ const Form = () => {
   });
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
+  const [isFormDirty, setIsFormDirty] = useState(false);
   const navigate = useNavigate();
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      setIsFormDirty(true);
+    };
+
+    const handleBlur = () => {
+      setIsFormDirty(false);
+    };
+
+    const formElement = formRef.current;
+
+    formElement.addEventListener('focusin', handleFocus);
+    formElement.addEventListener('focusout', handleBlur);
+
+    return () => {
+      formElement.removeEventListener('focusin', handleFocus);
+      formElement.removeEventListener('focusout', handleBlur);
+    };
+  }, []);
 
   const handleInputChange = (fieldName, value) => {
     const newFormData = { ...formData, [fieldName]: value };
@@ -59,7 +81,6 @@ const Form = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     setIsSubmitClicked(true);
-
     const newErrors = {};
     Object.keys(formData).forEach((fieldName) => {
       newErrors[fieldName] = validateField(fieldName, formData[fieldName]);
@@ -78,21 +99,18 @@ const Form = () => {
         date: '',
         switcher: '',
       });
-      setIsSubmitClicked(false);
     }
   };
 
-  const errorsInForm = Object.values(errors).some((error) => error !== '');
-  const missedDataInForm = Object.values(formData).some((value) =>
-    typeof value === 'boolean' ? false : value === ''
-  );
-
-  const isSubmitDisabled = errorsInForm || missedDataInForm;
+  const isSubmitDisabled =
+    !isFormDirty &&
+    (Object.values(errors).some((error) => error !== '') ||
+      Object.values(formData).some((value) => (typeof value === 'boolean' ? false : value === '')));
 
   return (
     <div className="form-block">
       <h2 className="form-title">Character Form</h2>
-      <form className="form" onSubmit={onSubmit} encType="multipart/form-data">
+      <form className="form" onSubmit={onSubmit} ref={formRef} encType="multipart/form-data">
         <TextInput
           label="Name"
           fieldName="name"
