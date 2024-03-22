@@ -1,11 +1,18 @@
-const filterCharacters = (characters, searchInput) => {
-  return characters.filter((character) => {
-    if (character.name) {
-      const regex = new RegExp(searchInput.replace(/\s/g, '.*'), 'i');
-      return regex.test(character.name);
+const filterCharacters = async (characters, searchInput, page) => {
+  try {
+    if (!searchInput) {
+      const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
+      const data = await res.json();
+      return data.results;
+    } else {
+      const res = await fetch(`https://rickandmortyapi.com/api/character/?name=${searchInput}&page=${page}`);
+      const data = await res.json();
+      return data.results;
     }
-    return false;
-  });
+  } catch (error) {
+    console.error('Error fetching characters:', error);
+    return [];
+  }
 };
 
 export default filterCharacters;

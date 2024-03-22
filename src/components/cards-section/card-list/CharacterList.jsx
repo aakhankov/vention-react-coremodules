@@ -6,23 +6,19 @@ import { useEffect, useState } from 'react';
 export default function CharacterList({ searchInput }) {
   const [characters, setCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const fetchCharacters = async () => {
-      try {
-        const response = await fetch('https://rickandmortyapi.com/api/character/');
-        if (!response.ok) {
-          throw new Error('Failed to fetch characters');
-        }
-        const data = await response.json();
-        setCharacters(data.results);
-      } catch (error) {
-        console.error('Error fetching characters:', error.message);
-      }
-    };
+    fetchData(`https://rickandmortyapi.com/api/character?page=${currentPage}`);
+  }, [currentPage]);
 
-    fetchCharacters();
-  }, []);
+  const fetchData = async (url) => {
+    const res = await fetch(url);
+    const data = await res.json();
+    setTotalPages(data.info.pages);
+    setCharacters(data.results);
+  };
 
   useEffect(() => {
     const filterCharacters = () => {
@@ -40,10 +36,27 @@ export default function CharacterList({ searchInput }) {
   }, [searchInput, characters]);
 
   return (
-    <div className="cardListSection">
-      {filteredCharacters.map((character) => (
-        <CharacterCard key={character.id} character={character} />
-      ))}
+    <div className="characterList">
+      <div className="cardListSection">
+        {filteredCharacters.map((character) => (
+          <CharacterCard key={character.id} character={character} />
+        ))}
+      </div>
+      <div className="pagination">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+        >
+          Prev
+        </button>
+        <span>{currentPage}</span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
