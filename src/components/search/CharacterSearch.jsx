@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import './CharacterSearch.css';
-import { useEffect } from 'react';
+import { useEffect  } from 'react';
 export default function CharacterSearch({ searchInput, onSearchInputChange }) {
   useEffect(() => {
-    return () => {
-      localStorage.setItem('searchInput', searchInput);
-    };
+    localStorage.setItem('searchInput', searchInput);
   }, [searchInput]);
 
   return (
@@ -20,6 +18,7 @@ export default function CharacterSearch({ searchInput, onSearchInputChange }) {
     </div>
   );
 }
+
 CharacterSearch.propTypes = {
   searchInput: PropTypes.string.isRequired,
   onSearchInputChange: PropTypes.func.isRequired,
