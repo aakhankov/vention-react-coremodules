@@ -8,6 +8,7 @@ export default function CharacterList({ searchInput }) {
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [noResults, setNoResults] = useState(false);
   const goToFirstPage = () => setCurrentPage(1);
   const goToLastPage = () => setCurrentPage(totalPages);
 
@@ -19,49 +20,67 @@ export default function CharacterList({ searchInput }) {
       } else {
         url += `?page=${currentPage}`;
       }
-
+    
       const res = await fetch(url);
       const data = await res.json();
-
+    
       if (searchInput) {
-        setFilteredCharacters(data.results);
+        if (data && data.results && data.results.length > 0) {
+          setFilteredCharacters(data.results);
+          setNoResults(false);
+        } else {
+          setFilteredCharacters([]);
+          setNoResults(true);
+        }
       } else {
-        setTotalPages(data.info.pages);
-        setCharacters(data.results);
+        if (data && data.results && data.info) {
+          setTotalPages(data.info.pages);
+          setCharacters(data.results);
+          setNoResults(false);
+        } else {
+          setCharacters([]);
+          setNoResults(true);
+        }
       }
     };
+    
 
     fetchData();
   }, [currentPage, searchInput]);
 
   return (
     <div className="characterList">
-      <div className="cardListSection">
-        {(searchInput ? filteredCharacters : characters)?.map((character) => (
-          <CharacterCard key={character.id} character={character} />
-        ))}
-      </div>
-      {!searchInput && (
-        <div className="pagination">
-          <button disabled={currentPage === 1} onClick={goToFirstPage}>
-            First Page
-          </button>
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-          >
-            Prev
-          </button>
-          <span>{currentPage}</span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-          >
-            Next
-          </button>
-          <button disabled={currentPage === totalPages} onClick={goToLastPage}>
-            Last Page
-          </button>
+      {noResults && <p className='no-results-message'>No results found.</p>}
+      {!noResults && (
+        <div>
+          <div className="cardListSection">
+            {(searchInput ? filteredCharacters : characters)?.map((character) => (
+              <CharacterCard key={character.id} character={character} />
+            ))}
+          </div>
+          {!searchInput && (
+            <div className="pagination">
+              <button disabled={currentPage === 1} onClick={goToFirstPage}>
+                First Page
+              </button>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+              >
+                Prev
+              </button>
+              <span>{currentPage}</span>
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+              >
+                Next
+              </button>
+              <button disabled={currentPage === totalPages} onClick={goToLastPage}>
+                Last Page
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

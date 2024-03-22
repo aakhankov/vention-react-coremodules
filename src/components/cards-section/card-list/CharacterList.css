@@ -19,3 +19,12 @@
   background-color: var(--background-light-color);
   border-radius: 5px;
 }
+.no-results-message {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin: 20px 200px;
+  border-radius: 5px;
+  color: red;
+  background-color: var(--background-light-color);
+}
