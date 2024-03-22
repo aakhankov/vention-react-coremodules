@@ -8,55 +8,62 @@ export default function CharacterList({ searchInput }) {
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const goToFirstPage = () => setCurrentPage(1);
+  const goToLastPage = () => setCurrentPage(totalPages);
 
   useEffect(() => {
-    fetchData(`https://rickandmortyapi.com/api/character?page=${currentPage}`);
-  }, [currentPage]);
-
-  const fetchData = async (url) => {
-    const res = await fetch(url);
-    const data = await res.json();
-    setTotalPages(data.info.pages);
-    setCharacters(data.results);
-  };
-
-  useEffect(() => {
-    const filterCharacters = () => {
-      if (!searchInput) {
-        setFilteredCharacters(characters);
+    const fetchData = async () => {
+      let url = 'https://rickandmortyapi.com/api/character';
+      if (searchInput) {
+        url += `?name=${searchInput}`;
       } else {
-        const filtered = characters.filter((character) =>
-          character.name.toLowerCase().includes(searchInput.toLowerCase())
-        );
-        setFilteredCharacters(filtered);
+        url += `?page=${currentPage}`;
+      }
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (searchInput) {
+        setFilteredCharacters(data.results);
+      } else {
+        setTotalPages(data.info.pages);
+        setCharacters(data.results);
       }
     };
 
-    filterCharacters();
-  }, [searchInput, characters]);
+    fetchData();
+  }, [currentPage, searchInput]);
 
   return (
     <div className="characterList">
       <div className="cardListSection">
-        {filteredCharacters.map((character) => (
+        {(searchInput ? filteredCharacters : characters)?.map((character) => (
           <CharacterCard key={character.id} character={character} />
         ))}
       </div>
-      <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-        >
-          Prev
-        </button>
-        <span>{currentPage}</span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-        >
-          Next
-        </button>
-      </div>
+      {!searchInput && (
+        <div className="pagination">
+          <button disabled={currentPage === 1} onClick={goToFirstPage}>
+            First Page
+          </button>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+          >
+            Prev
+          </button>
+          <span>{currentPage}</span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+          >
+            Next
+          </button>
+          <button disabled={currentPage === totalPages} onClick={goToLastPage}>
+            Last Page
+          </button>
+        </div>
+      )}
     </div>
   );
 }
