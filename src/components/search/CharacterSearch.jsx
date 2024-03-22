@@ -1,10 +1,19 @@
 import PropTypes from 'prop-types';
 import './CharacterSearch.css';
-import { useEffect  } from 'react';
-export default function CharacterSearch({ searchInput, onSearchInputChange }) {
-  useEffect(() => {
-    localStorage.setItem('searchInput', searchInput);
-  }, [searchInput]);
+import { useState } from 'react';
+
+export default function CharacterSearch({ onSearch }) {
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onSearch(searchInput);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
 
   return (
     <div className="characterSearch_block">
@@ -12,7 +21,8 @@ export default function CharacterSearch({ searchInput, onSearchInputChange }) {
         className="characterSearch_input"
         label="Search Characters"
         value={searchInput}
-        onChange={(event) => onSearchInputChange(event.target.value)}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown} // Добавляем обработчик события нажатия клавиши
         placeholder="Search character..."
       />
     </div>
@@ -20,6 +30,5 @@ export default function CharacterSearch({ searchInput, onSearchInputChange }) {
 }
 
 CharacterSearch.propTypes = {
-  searchInput: PropTypes.string.isRequired,
-  onSearchInputChange: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
 };

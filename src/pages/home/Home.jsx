@@ -3,12 +3,12 @@ import CharacterList from '../../components/cards-section/card-list/CharacterLis
 import { useState } from 'react';
 export default function Home() {
   const [searchInput, setSearchInput] = useState('');
-  const handleSearchInputChange = (inputValue) => {
+  const handleSearch = (inputValue) => {
     setSearchInput(inputValue);
   };
   return (
     <div>
-      <CharacterSearch searchInput={searchInput} onSearchInputChange={handleSearchInputChange} />
+      <CharacterSearch onSearch={handleSearch} />
       <CharacterList searchInput={searchInput} />
     </div>
   );
