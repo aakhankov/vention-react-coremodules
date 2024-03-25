@@ -10,13 +10,24 @@ export default function Modal({ isOpen, onClose, selectedCharacter }) {
         </button>
         {isOpen && (
           <div className="modal-content">
-            <h2>Name: {selectedCharacter.name}</h2>
-            <img src={selectedCharacter.image} alt="" />
-            <p>Species: {selectedCharacter.species}</p>
-            <p>Status: {selectedCharacter.status}</p>
-            <p>ID: {selectedCharacter.id}</p>
-            <p>Type: {selectedCharacter.type}</p>
-            <p>Gender: {selectedCharacter.gender}</p>
+            <h2>{selectedCharacter.name}</h2>
+            <div className="modal-content-block">
+              <div className="modal-content-picture">
+                <img src={selectedCharacter.image} alt="" />
+              </div>
+              <div className="modal-content-description">
+                <p>Species: {selectedCharacter.species}</p>
+                <p>Status: {selectedCharacter.status}</p>
+                <p>Gender: {selectedCharacter.gender}</p>
+                <p>
+                  URL: <a href={selectedCharacter.url}>{selectedCharacter.url}</a>
+                </p>
+                <p>Location: {selectedCharacter.location.name}</p>
+                <p>Created: {selectedCharacter.created}</p>
+                <p>Episodes: {selectedCharacter.episode.length}</p>
+                <p>ID: {selectedCharacter.id}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>
