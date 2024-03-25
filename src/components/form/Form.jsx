@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import './Form.css';
-import { handleSubmit } from './HandleSubmitForm';
+import { handleSubmit } from '../../utils/HandleSubmitForm';
 import { useNavigate } from 'react-router-dom';
-import validateField from './ValidateField';
+import validateField from '../../utils/ValidateField';
 import TextInput from '../inputs/TextInput/TextInput';
 import NumberInputs from '../inputs/NumberInput/NumberInput';
 import SelectInput from '../inputs/SelectInput/SelectInput';

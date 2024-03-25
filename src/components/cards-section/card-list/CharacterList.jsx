@@ -2,6 +2,7 @@ import CharacterCard from '../card-item/CharacterCard';
 import PropTypes from 'prop-types';
 import './CharacterList.css';
 import { useEffect, useState } from 'react';
+import Modal from '../../modal/Modal';
 
 export default function CharacterList({ searchInput }) {
   const [characters, setCharacters] = useState([]);
@@ -11,6 +12,15 @@ export default function CharacterList({ searchInput }) {
   const [noResults, setNoResults] = useState(false);
   const goToFirstPage = () => setCurrentPage(1);
   const goToLastPage = () => setCurrentPage(totalPages);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  const handleClick = (character) => {
+    setSelectedCharacter(character);
+  };
+
+  const closeModal = () => {
+    setSelectedCharacter(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,10 +30,10 @@ export default function CharacterList({ searchInput }) {
       } else {
         url += `?page=${currentPage}`;
       }
-    
+
       const res = await fetch(url);
       const data = await res.json();
-    
+
       if (searchInput) {
         if (data && data.results && data.results.length > 0) {
           setFilteredCharacters(data.results);
@@ -43,21 +53,30 @@ export default function CharacterList({ searchInput }) {
         }
       }
     };
-    
 
     fetchData();
-  }, [currentPage, searchInput]);
+    console.log('selectedCharacter:', selectedCharacter);
+  }, [currentPage, searchInput, selectedCharacter]);
 
   return (
     <div className="characterList">
-      {noResults && <p className='no-results-message'>No results found.</p>}
+      {noResults && <p className="no-results-message">No results found.</p>}
       {!noResults && (
         <div>
           <div className="cardListSection">
             {(searchInput ? filteredCharacters : characters)?.map((character) => (
-              <CharacterCard key={character.id} character={character} />
+              <CharacterCard
+                key={character.id}
+                character={character}
+                onClick={() => handleClick(character)}
+              />
             ))}
           </div>
+          <Modal
+            isOpen={!!selectedCharacter}
+            onClose={closeModal}
+            selectedCharacter={selectedCharacter}
+          />
           {!searchInput && (
             <div className="pagination">
               <button disabled={currentPage === 1} onClick={goToFirstPage}>
