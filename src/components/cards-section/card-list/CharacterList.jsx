@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './CharacterList.css';
 import { useEffect, useState } from 'react';
 import Modal from '../../modal/Modal';
-
+import Pagination from '../../pagination/Pagination';
 export default function CharacterList({ searchInput }) {
   const [characters, setCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
@@ -78,27 +78,13 @@ export default function CharacterList({ searchInput }) {
             selectedCharacter={selectedCharacter}
           />
           {!searchInput && (
-            <div className="pagination">
-              <button disabled={currentPage === 1} onClick={goToFirstPage}>
-                First Page
-              </button>
-              <button
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-              >
-                Prev
-              </button>
-              <span>{currentPage}</span>
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-              >
-                Next
-              </button>
-              <button disabled={currentPage === totalPages} onClick={goToLastPage}>
-                Last Page
-              </button>
-            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              goToFirstPage={goToFirstPage}
+              goToLastPage={goToLastPage}
+              setCurrentPage={setCurrentPage}
+            />
           )}
         </div>
       )}
