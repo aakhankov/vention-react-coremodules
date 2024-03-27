@@ -1,14 +1,14 @@
-export const handleSubmit = (navigate, formData, setFormData) => async (e) => {
+export const handleSubmit = (navigate, formData, setFormData, onCharacterAdded) => async (e) => {
   e.preventDefault();
 
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
+    body: JSON.stringify(formData),
   };
 
   try {
-    const response = await fetch('https://your-api-url/characters', requestOptions);
+    const response = await fetch('https://rickandmortyapi.com/api/character', requestOptions);
     if (!response.ok) {
       throw new Error('Failed to add character');
     }
@@ -23,8 +23,12 @@ export const handleSubmit = (navigate, formData, setFormData) => async (e) => {
       fileInput: null,
       privacy: false,
       date: '',
-      switcher: false
+      switcher: false,
     });
+    // if (onCharacterAdded) {
+    //   onCharacterAdded(newCharacter);
+    // }
+    onCharacterAdded(newCharacter);
     navigate('/');
   } catch (error) {
     console.error('Error adding character:', error.message);

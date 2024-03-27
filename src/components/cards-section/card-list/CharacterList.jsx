@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Modal from '../../modal/Modal';
 import Pagination from '../../pagination/Pagination';
 import DownloadIndicator from '../../download-indicator/DownloadIndicator';
+import { useCharacterContext } from '../../character-context/characterUtils';
 
 export default function CharacterList({ searchInput }) {
   const [characters, setCharacters] = useState([]);
@@ -16,6 +17,7 @@ export default function CharacterList({ searchInput }) {
   const goToLastPage = () => setCurrentPage(totalPages);
   const [loading, setLoading] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const { newCharacter } = useCharacterContext();
 
   const handleClick = (character) => {
     setSelectedCharacter(character);
@@ -77,6 +79,7 @@ export default function CharacterList({ searchInput }) {
                 onClick={() => handleClick(character)}
               />
             ))}
+            {newCharacter && <CharacterCard key={newCharacter.id} character={newCharacter} />}
           </div>
           <Modal
             isOpen={!!selectedCharacter}

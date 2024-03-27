@@ -10,8 +10,10 @@ import Checkbox from '../inputs/CheckboxInput/Checkbox';
 import DateInput from '../inputs/DateInput/DateInput';
 import FileInput from '../inputs/FileInput/FileInput';
 import Switcher from '../inputs/Switcher/Switcher';
+import { useCharacterContext } from '../../components/character-context/characterUtils';
 
 const Form = () => {
+  const { setNewCharacter } = useCharacterContext();
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -78,7 +80,7 @@ const Form = () => {
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitClicked(true);
     const newErrors = {};
@@ -89,16 +91,21 @@ const Form = () => {
     setErrors(newErrors);
 
     if (Object.values(newErrors).every((error) => error === '')) {
-      handleSubmit(navigate, formData, setFormData)(e);
-      setErrors({
-        name: '',
-        age: '',
-        description: '',
-        fileInput: '',
-        privacy: '',
-        date: '',
-        switcher: '',
-      });
+      try {
+        await handleSubmit(navigate, formData, setFormData);
+        setNewCharacter(formData);
+        setErrors({
+          name: '',
+          age: '',
+          description: '',
+          fileInput: '',
+          privacy: '',
+          date: '',
+          switcher: '',
+        });
+      } catch (error) {
+        console.error('Error adding character:', error.message);
+      }
     }
   };
 
