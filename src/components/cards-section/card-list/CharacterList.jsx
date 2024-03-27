@@ -4,6 +4,8 @@ import './CharacterList.css';
 import { useEffect, useState } from 'react';
 import Modal from '../../modal/Modal';
 import Pagination from '../../pagination/Pagination';
+import DownloadIndicator from '../../download-indicator/DownloadIndicator';
+
 export default function CharacterList({ searchInput }) {
   const [characters, setCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
@@ -12,6 +14,7 @@ export default function CharacterList({ searchInput }) {
   const [noResults, setNoResults] = useState(false);
   const goToFirstPage = () => setCurrentPage(1);
   const goToLastPage = () => setCurrentPage(totalPages);
+  const [loading, setLoading] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   const handleClick = (character) => {
@@ -24,6 +27,7 @@ export default function CharacterList({ searchInput }) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       let url = 'https://rickandmortyapi.com/api/character';
       if (searchInput) {
         url += `?name=${searchInput}`;
@@ -52,6 +56,7 @@ export default function CharacterList({ searchInput }) {
           setNoResults(true);
         }
       }
+      setLoading(false);
     };
 
     fetchData();
@@ -60,8 +65,9 @@ export default function CharacterList({ searchInput }) {
 
   return (
     <div className="characterList">
+      {loading && <DownloadIndicator />}
       {noResults && <p className="no-results-message">No results found.</p>}
-      {!noResults && (
+      {!noResults && !loading && (
         <div>
           <div className="cardListSection">
             {(searchInput ? filteredCharacters : characters)?.map((character) => (
