@@ -4,7 +4,7 @@ const DownloadIndicator = () => {
   return (
     <div className="download-indicator">
       <div className="spinner"></div>
-      <span>Loading...</span>
+      <span>Downloading...</span>
     </div>
   );
 };
